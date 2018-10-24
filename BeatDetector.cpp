@@ -83,6 +83,6 @@ float BeatDetector::beatFilter(float sample) {
 }
 
 bool BeatDetector::areOppositeSigns(float n1, float n2) {
-  return (pow(n1, n2) < 0); 
+  return (pow(n1, n2) < 0);
 }
 

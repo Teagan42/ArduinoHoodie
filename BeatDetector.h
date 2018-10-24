@@ -15,26 +15,33 @@
 #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
 #endif
 
-class BeatDetector{
+class BeatDetector {
   public:
-  BeatDetector(int pinMic, float threshold, void (*preLoop)(), void (*postLoop)(), void (*onBeat)(float amplitude), void (*offBeat)());
+    BeatDetector(
+      int pinMic,
+      float threshold,
+      void (*preLoop)(),
+      void (*postLoop)(),
+      void (*onBeat)(float amplitude),
+      void (*offBeat)()
+    );
 
-  void setup();
+    void setup();
 
-  void loop();
-  
+    void loop();
+
   private:
-  float bassFilter(float sample);
-  float envelopeFilter(float sample);
-  float beatFilter(float sample);
-  bool areOppositeSigns(float n1, float n2);
-  
-  int pinMic;
-  float threshold;
-  void (*preLoop)();
-  void (*postLoop)();
-  void (*onBeat)(float amplitude);
-  void (*offBeat)();
+    float bassFilter(float sample);
+    float envelopeFilter(float sample);
+    float beatFilter(float sample);
+    bool areOppositeSigns(float n1, float n2);
+
+    int pinMic;
+    float threshold;
+    void (*preLoop)();
+    void (*postLoop)();
+    void (*onBeat)(float amplitude);
+    void (*offBeat)();
 };
 
 #endif

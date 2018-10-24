@@ -11,29 +11,37 @@
 #define LEDS_PER_ARM 60
 #define RAINBOW_LENGTH 20
 
-class Arm{
+class Arm {
   public:
-  Arm(Sensor* lowerSensor, Sensor* upperSensor, CRGB* leds);
-  Arm(int pinLowerAd0, int pinUpperAd0, CRGB* leds);
+    Arm(
+      Sensor* lowerSensor,
+      Sensor* upperSensor,
+      CRGB* leds
+    );
+    Arm(
+      int pinLowerAd0,
+      int pinUpperAd0,
+      CRGB* leds
+    );
 
-  void setup(bool calculateOffsets);
-  void setup();
+    void setup(bool calculateOffsets);
+    void setup();
 
-  void calculateOffsets();
+    void calculateOffsets();
 
-  void loop();
+    void loop();
 
-  void onBeat(float amplitude);
+    void onBeat(float amplitude);
 
-  void offBeat();
-  
+    void offBeat();
+
   private:
-  Sensor* lowerSensor;
-  Sensor* upperSensor;
-  CRGB* leds;
+    Sensor* lowerSensor;
+    Sensor* upperSensor;
+    CRGB* leds;
 
-  int rainbowStartIndex;
-  byte deltaHue;
+    int rainbowStartIndex;
+    byte deltaHue;
 };
 
 #endif

@@ -25,9 +25,24 @@ void offBeat();
 
 CRGB leftLeds[LEDS_PER_ARM], rightLeds[LEDS_PER_ARM];
 
-BeatDetector beatDetector(MIC_PIN, BEAT_THRESHOLD, preLoop, postLoop, onBeat, offBeat);
-Arm leftArm(LEFT_LOWER_AD0_PIN, LEFT_UPPER_AD0_PIN, leftLeds);
-Arm rightArm(RIGHT_LOWER_AD0_PIN, RIGHT_UPPER_AD0_PIN, rightLeds);
+BeatDetector beatDetector(
+  MIC_PIN,
+  BEAT_THRESHOLD,
+  preLoop,
+  postLoop,
+  onBeat,
+  offBeat
+);
+Arm leftArm(
+  LEFT_LOWER_AD0_PIN,
+  LEFT_UPPER_AD0_PIN,
+  leftLeds
+);
+Arm rightArm(
+  RIGHT_LOWER_AD0_PIN,
+  RIGHT_UPPER_AD0_PIN,
+  rightLeds
+);
 
 void setup() {
   Serial.begin(115200);
@@ -35,7 +50,7 @@ void setup() {
 
   FastLED.addLeds<LED_TYPE, LEFT_LED_PIN, COLOR_ORDER>(leftLeds, LEDS_PER_ARM).setCorrection(TypicalLEDStrip);
   FastLED.addLeds<LED_TYPE, RIGHT_LED_PIN, COLOR_ORDER>(rightLeds, LEDS_PER_ARM).setCorrection(TypicalLEDStrip);
-  
+
   beatDetector.setup();
   leftArm.setup();
   rightArm.setup();
@@ -47,7 +62,7 @@ void loop() {
 
 void preLoop() {
   FastLED.clear();
-  
+
   leftArm.loop();
   rightArm.loop();
 }
