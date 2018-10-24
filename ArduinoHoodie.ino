@@ -16,6 +16,7 @@
 
 #define BRIGHTNESS_ON_BEAT 255
 #define BRIGHTNESS_OFF_BEAT 125
+#define BEAT_THRESHOLD 0.5
 
 void preLoop();
 void postLoop();
@@ -24,7 +25,7 @@ void offBeat();
 
 CRGB leftLeds[LEDS_PER_ARM], rightLeds[LEDS_PER_ARM];
 
-BeatDetector beatDetector(MIC_PIN, preLoop, postLoop, onBeat, offBeat);
+BeatDetector beatDetector(MIC_PIN, BEAT_THRESHOLD, preLoop, postLoop, onBeat, offBeat);
 Arm leftArm(LEFT_LOWER_AD0_PIN, LEFT_UPPER_AD0_PIN, leftLeds);
 Arm rightArm(RIGHT_LOWER_AD0_PIN, RIGHT_UPPER_AD0_PIN, rightLeds);
 

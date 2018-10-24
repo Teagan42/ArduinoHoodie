@@ -1,7 +1,8 @@
 #include "BeatDetector.h"
 
-BeatDetector::BeatDetector(int pinMic, void (*preLoop)(), void (*postLoop)(), void (*onBeat)(float amplitude), void (*offBeat)()) {
+BeatDetector::BeatDetector(int pinMic, float threshhold, void (*preLoop)(), void (*postLoop)(), void (*onBeat)(float amplitude), void (*offBeat)()) {
   this->pinMic = pinMic;
+  this->threshold = threshold;
   this->preLoop = preLoop;
   this->postLoop = postLoop;
   this->onBeat = onBeat;
@@ -14,7 +15,7 @@ void BeatDetector::setup() {
 
 void BeatDetector::loop() {
   unsigned long time = micros(); // Used to track rate
-  float sample, value, envelope, beat, thresh;
+  float sample, value, envelope, beat, lastBeat;
   unsigned char i;
 
   for (i = 0;; ++i) {
@@ -31,15 +32,12 @@ void BeatDetector::loop() {
     // Every 200 samples (25hz) filter the envelope
     if (i == 200) {
       this->preLoop();
-      
+      lastBeat = beat;
       // Filter out repeating bass sounds 100 - 180bpm
       beat = beatFilter(envelope);
 
-      // Threshold it based on potentiometer on AN1
-      thresh = 0.02f * (float)analogRead(1);
-
       // If we are above threshold, light up LED
-      if (beat > thresh) this->onBeat(beat);
+      if (beat > this->threshold) this->onBeat(beat);
       else this->offBeat();
 
       //Reset sample counter
@@ -82,5 +80,9 @@ float BeatDetector::beatFilter(float sample) {
   yv[2] = (xv[2] - xv[0])
           + (-0.7169861741f * yv[0]) + (1.4453653501f * yv[1]);
   return yv[2];
+}
+
+bool BeatDetector::areOppositeSigns(float n1, float n2) {
+  return (pow(n1, n2) < 0); 
 }
 
